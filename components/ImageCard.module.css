@@ -1,0 +1,78 @@
+.card {
+  display: flex;
+  width: 100%;
+
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+
+.card:not(:last-child) {
+  border-bottom: var(--border);
+  padding-bottom: 1rem;
+}
+
+.upper,
+.lower {
+  display: flex;
+  width: 100%;
+
+  align-items: center;
+}
+
+.upper {
+  gap: 1rem;
+}
+
+.lower {
+  overflow-x: auto;
+  gap: 0.25rem;
+}
+
+.thumb {
+  object-fit: cover;
+  width: 5rem;
+  height: auto;
+  aspect-ratio: 1;
+}
+
+.info {
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.info span:not(.filename) {
+  color: var(--g1);
+}
+
+.filename {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.buttons {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.imageContainer {
+  position: relative;
+  width: 5rem;
+}
+
+.imageContainer > img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.imageContainer button {
+  position: absolute;
+  bottom: 0.25rem;
+  right: 0.25rem;
+  padding: 0.25rem;
+  background-color: var(--g5);
+}

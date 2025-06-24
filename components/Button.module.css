@@ -1,0 +1,68 @@
+.button {
+  display: flex;
+  padding: 0.5rem 1.25rem;
+  width: fit-content;
+
+  flex: 1;
+  align-items: center;
+
+  border: var(--border);
+  border-radius: 100rem;
+  color: var(--g0);
+  background: none;
+  text-align: center;
+  text-decoration: none;
+
+  transition: var(--transition);
+}
+
+.button:is(:hover, :active) {
+  background-color: var(--g4);
+  cursor: pointer;
+
+  transition: var(--transition);
+}
+
+.button img {
+  width: 1.5rem;
+  height: 1.5rem;
+  margin-right: 0.25rem;
+}
+
+.action {
+  color: var(--g5);
+  background-color: var(--a0);
+  border-color: var(--a0);
+}
+
+.action:is(:hover, :active) {
+  background-color: var(--a1);
+  border-color: var(--a1);
+}
+
+.danger {
+  color: var(--d0);
+}
+
+.hidden {
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+
+.hidden img {
+  margin-right: 0;
+}
+
+@media screen and (max-width: 768px) {
+  .hiddenMobile {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+  .hiddenMobile img {
+    margin-right: 0;
+  }
+
+  .hiddenMobile span {
+    display: none;
+  }
+}

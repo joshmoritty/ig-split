@@ -1,0 +1,62 @@
+.drag {
+  display: flex;
+  width: 100%;
+
+  padding: 4rem;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+
+  border: var(--border);
+  border-style: dashed;
+  border-radius: 2rem;
+  transition: var(--transition);
+}
+
+.drag:is(:hover, :active) {
+  background-color: var(--g4);
+  transition: var(--transition);
+}
+
+.drag p {
+  margin: 0;
+}
+
+.input {
+  display: none;
+}
+
+.list,
+.preview {
+  display: flex;
+  width: 100%;
+
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+
+.buttons {
+  position: sticky;
+  top: 0;
+  display: flex;
+  width: 100%;
+  padding: 1rem 0;
+
+  gap: 1rem;
+  justify-content: center;
+  background-color: var(--g5);
+}
+
+.added {
+  border-bottom: var(--border);
+}
+
+.buttons :is(button, label) {
+  flex: 0 0 auto;
+}
+
+.preview h2 {
+  font-weight: 400;
+}

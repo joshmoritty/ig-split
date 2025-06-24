@@ -1,0 +1,52 @@
+.nav {
+  display: flex;
+  width: 100%;
+
+  border-radius: 100rem;
+  border: var(--border);
+  overflow: hidden;
+}
+
+.nav a {
+  display: flex;
+  padding: 0.5rem 1.5rem;
+
+  flex: 1;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+
+  font-size: 0.8rem;
+  color: black;
+  text-decoration: none;
+
+  transition: var(--transition);
+}
+
+.navHome a {
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+
+  font-size: 1rem;
+}
+
+.nav a:not(.active):is(:hover, :active) {
+  background-color: var(--g4);
+  cursor: pointer;
+
+  transition: var(--transition);
+}
+
+.nav a:not(:last-child) {
+  border-right: var(--border);
+}
+
+.nav a img {
+  width: 2rem;
+  height: 2rem;
+}
+
+.nav a.active {
+  color: var(--a0);
+  cursor: default;
+}
