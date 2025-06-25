@@ -10,9 +10,16 @@ import JSZip from "jszip";
 import removeExtension from "@/lib/removeExtension";
 import { useDropzone } from "react-dropzone";
 
-const defaultAspect = 4 / 5;
-
-export default function ImageList() {
+export default function ImageList({
+  processImage,
+}: {
+  processImage: (
+    img: HTMLImageElement,
+    width: number,
+    height: number,
+    fileType: string
+  ) => Promise<Result[]>;
+}) {
   const [images, setImages] = useState<ImageFile[]>([]);
 
   const addFiles = async (files: File[]) => {
@@ -34,55 +41,8 @@ export default function ImageList() {
       const width = img.naturalWidth;
       const height = img.naturalHeight;
 
-      const cropTop = 0;
-      const cropLeft = 0;
+      const results = await processImage(img, width, height, fileType);
 
-      const n = Math.floor(width / height / defaultAspect);
-
-      const resultHeight = height;
-      const resultWidth = defaultAspect * resultHeight;
-
-      const promises: Promise<Result>[] = [];
-
-      for (let j = 0; j < n; j++) {
-        const canvas = document.createElement("canvas");
-        canvas.width = resultWidth;
-        canvas.height = resultHeight;
-        const ctx = canvas.getContext("2d");
-
-        ctx?.drawImage(
-          img,
-          cropLeft + resultWidth * j,
-          cropTop,
-          resultWidth,
-          resultHeight,
-          0,
-          0,
-          resultWidth,
-          resultHeight
-        );
-
-        promises.push(
-          new Promise((resolve) =>
-            canvas.toBlob(
-              (blob) => {
-                if (blob) {
-                  resolve({
-                    name: ("00" + (j + 1)).slice(-2),
-                    blobUrl: URL.createObjectURL(blob),
-                    width: resultWidth,
-                    height: resultHeight,
-                  });
-                }
-              },
-              fileType,
-              100
-            )
-          )
-        );
-      }
-
-      const results = await Promise.all(promises);
       const imageFile: ImageFile = {
         id,
         name,
@@ -91,6 +51,7 @@ export default function ImageList() {
         height,
         results,
       };
+
       setImages((images) => [...images, imageFile]);
     }
   };
