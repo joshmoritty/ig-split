@@ -55,7 +55,7 @@
 }
 
 .buttons :is(button, label) {
-  flex: 0 0 auto;
+  flex: 0 1 auto;
 }
 
 .preview h2 {
