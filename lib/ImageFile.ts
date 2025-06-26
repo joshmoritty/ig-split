@@ -1,10 +1,10 @@
 export interface ImageFile {
-  id: string,
+  id: string;
   name: string;
   blobUrl: string;
   width: number;
   height: number;
-  results: Result[]
+  results: Result[];
 }
 
 export interface Result {
