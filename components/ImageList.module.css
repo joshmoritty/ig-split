@@ -15,9 +15,14 @@
   transition: var(--transition);
 }
 
-.drag:is(:hover, :active) {
+.drag:is(:hover, :active),
+.dragActive {
   background-color: var(--g4);
   transition: var(--transition);
+}
+
+.dragActive {
+  border-color: var(--a2);
 }
 
 .drag p {

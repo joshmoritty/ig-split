@@ -154,13 +154,14 @@ export default function ImageList({
       />
       {images.length == 0 && (
         <>
-          <div {...getRootProps()} className={styles.drag}>
+          <div
+            {...getRootProps()}
+            className={
+              styles.drag + (isDragActive ? " " + styles.dragActive : "")
+            }
+          >
             <input {...getInputProps()} />
-            {isDragActive ? (
-              <p>Drag and drop images here...</p>
-            ) : (
-              <p>Drag and drop images here, or click to select</p>
-            )}
+            <p>Drag and drop images here, or click to select</p>
             <label
               htmlFor="image-input"
               className={`${button.button} ${button.action}`}
