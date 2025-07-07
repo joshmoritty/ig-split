@@ -13,7 +13,11 @@ export default function Nav() {
     >
       <Link href="/grid" className={path === "/grid" ? styles.active : ""}>
         <Image
-          src={path === "/grid" ? "/img/grid-active.svg" : "/img/grid.svg"}
+          src={
+            path === "/grid"
+              ? "/ig-split/img/grid-active.svg"
+              : "/ig-split/img/grid.svg"
+          }
           alt="Grid"
           width={32}
           height={32}
@@ -27,8 +31,8 @@ export default function Nav() {
         <Image
           src={
             path === "/carousel"
-              ? "/img/carousel-active.svg"
-              : "/img/carousel.svg"
+              ? "/ig-split/img/carousel-active.svg"
+              : "/ig-split/img/carousel.svg"
           }
           alt="Carousel"
           width={32}

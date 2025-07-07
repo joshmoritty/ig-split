@@ -20,7 +20,7 @@ export default function Counter({
   return (
     <div className={styles.counter}>
       <Button
-        img="/img/subtract.svg"
+        img="/ig-split/img/subtract.svg"
         text="Subtract"
         textVisible="hidden"
         onClick={onSubtract}
@@ -28,7 +28,7 @@ export default function Counter({
       />
       <input type="number" value={count} onChange={onChange} />
       <Button
-        img="/img/add.svg"
+        img="/ig-split/img/add.svg"
         text="Add"
         textVisible="hidden"
         onClick={onAdd}

@@ -37,7 +37,7 @@ export default function Modal({
         <div className={styles.header}>
           <Button
             text="Close"
-            img="/img/close.svg"
+            img="/ig-split/img/close.svg"
             textVisible="hidden"
             className={styles.close}
             onClick={onClose}

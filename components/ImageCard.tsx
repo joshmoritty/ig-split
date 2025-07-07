@@ -54,13 +54,13 @@ export default function ImageCard({
         </div>
         <div className={styles.buttons}>
           <Button
-            img="/img/download.svg"
+            img="/ig-split/img/download.svg"
             text="Download"
             textVisible="hidden"
             onClick={onSave}
           />
           <Button
-            img="/img/delete.svg"
+            img="/ig-split/img/delete.svg"
             type="danger"
             text="Delete"
             textVisible="hidden"
@@ -72,17 +72,17 @@ export default function ImageCard({
       {results && tempOptions && (
         <div className={styles.mid}>
           <Button
-            img="/img/options.svg"
+            img="/ig-split/img/options.svg"
             text="Options"
             onClick={() => setModal("options")}
           />
           <Button
-            img="/img/reel.svg"
+            img="/ig-split/img/reel.svg"
             text="Select Reels"
             onClick={() => setModal("reels")}
           />
           <Button
-            img="/img/preview.svg"
+            img="/ig-split/img/preview.svg"
             text="Preview"
             onClick={() => setModal("preview")}
           />
@@ -99,7 +99,7 @@ export default function ImageCard({
                 height={result.height}
               />
               <Button
-                img="/img/download.svg"
+                img="/ig-split/img/download.svg"
                 text="Download"
                 textVisible="hidden"
                 onClick={() => onResultSave(result)}
@@ -202,7 +202,7 @@ export default function ImageCard({
                   <div className={styles.tick}>
                     {tempOptions.isReel && tempOptions.isReel[idx] && (
                       <Image
-                        src="/img/check.svg"
+                        src="/ig-split/img/check.svg"
                         alt="Check"
                         width={32}
                         height={32}

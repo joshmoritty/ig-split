@@ -168,7 +168,7 @@ export default function ImageList({
               onClick={(e) => e.stopPropagation()}
             >
               <Image
-                src="/img/image-action.svg"
+                src="/ig-split/img/image-action.svg"
                 alt="Select Images"
                 width={32}
                 height={32}
@@ -187,7 +187,7 @@ export default function ImageList({
           >
             <label htmlFor="image-input" className={button.button}>
               <Image
-                src="/img/image.svg"
+                src="/ig-split/img/image.svg"
                 alt="Add Images"
                 width={32}
                 height={32}
@@ -197,7 +197,7 @@ export default function ImageList({
             <Button
               type="action"
               text="Save All Images"
-              img="/img/download-action.svg"
+              img="/ig-split/img/download-action.svg"
               onClick={saveAll}
             />
           </div>
