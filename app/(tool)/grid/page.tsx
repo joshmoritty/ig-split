@@ -11,6 +11,8 @@ const defaultColN = 3;
 
 const reelWidth = 1080;
 const reelHeight = 1920;
+const reelHeightOffset = 4;
+const reelYOffset = 1;
 
 const processImage: ProcessImage = async (image) => {
   const img = image.img;
@@ -104,8 +106,10 @@ const processImage: ProcessImage = async (image) => {
         sourceWidth = resultWidth * (defaultPreviewWidth / defaultWidth);
         x += (resultWidth - sourceWidth) / 2;
         canvasWidth = reelWidth;
-        canvasHeight = reelWidth * (resultHeight / sourceWidth);
-        canvasY = (reelHeight - canvasHeight) / 2;
+        canvasHeight =
+          Math.ceil(reelWidth * (resultHeight / sourceWidth)) +
+          reelHeightOffset;
+        canvasY = Math.floor((reelHeight - canvasHeight) / 2) + reelYOffset;
 
         if (ctx) ctx.fillStyle = "white";
         ctx?.fillRect(0, 0, reelWidth, reelHeight);
