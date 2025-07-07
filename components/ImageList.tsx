@@ -146,7 +146,7 @@ export default function ImageList({
     <>
       <input
         type="file"
-        accept=".png,.jfif,.pjp,.jpg,.pjepg,.jpeg,.webp"
+        accept=".png,.jfif,.pjp,.jpg,.pjpeg,.jpeg,.webp"
         id="image-input"
         className={styles.input}
         multiple
