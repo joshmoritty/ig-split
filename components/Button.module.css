@@ -53,6 +53,23 @@
   margin-right: 0;
 }
 
+.disabled {
+  cursor: default !important;
+}
+
+.disabled:not(.action) {
+  color: var(--g1);
+}
+
+.disabled img {
+  opacity: 0.15;
+}
+
+.disabled.action {
+  background-color: var(--g2);
+  border-color: var(--g2);
+}
+
 @media screen and (max-width: 768px) {
   .hiddenMobile {
     padding-left: 1rem;

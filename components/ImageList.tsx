@@ -9,24 +9,29 @@ import Button from "./Button";
 import JSZip from "jszip";
 import removeExtension from "@/lib/removeExtension";
 import { useDropzone } from "react-dropzone";
+import { ProcessImage, ProcessOptions } from "@/lib/ProcessImage";
 
 export default function ImageList({
   processImage,
+  isGrid = false,
 }: {
-  processImage: (
-    img: HTMLImageElement,
-    width: number,
-    height: number,
-    fileType: string
-  ) => Promise<Result[]>;
+  processImage: ProcessImage;
+  isGrid?: boolean;
 }) {
   const [images, setImages] = useState<ImageFile[]>([]);
+
+  const reprocess = async (image: ImageFile) => {
+    const newImage = await processImage(image);
+
+    setImages((images) =>
+      images.map((i) => (i.blobUrl === newImage.blobUrl ? newImage : i))
+    );
+  };
 
   const addFiles = async (files: File[]) => {
     for (let i = 0; i < files.length; i++) {
       const blobUrl = URL.createObjectURL(files[i]);
 
-      const id = blobUrl;
       const name = files[i].name;
       const data = blobUrl;
       const fileType = files[i].type;
@@ -38,21 +43,16 @@ export default function ImageList({
         im.src = data;
       });
 
-      const width = img.naturalWidth;
-      const height = img.naturalHeight;
-
-      const results = await processImage(img, width, height, fileType);
-
-      const imageFile: ImageFile = {
-        id,
-        name,
+      const image: ImageFile = {
         blobUrl,
-        width,
-        height,
-        results,
+        name,
+        fileType,
+        img,
       };
 
-      setImages((images) => [...images, imageFile]);
+      setImages((images) => [...images, image]);
+
+      reprocess(image);
     }
   };
 
@@ -63,7 +63,9 @@ export default function ImageList({
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
     onDrop,
     accept: {
-      "": [".png", ".jpg", ".jpeg", ".webp"],
+      "image/png": [],
+      "image/jpeg": [],
+      "image/webp": [],
     },
     multiple: true,
   });
@@ -102,6 +104,8 @@ export default function ImageList({
   };
 
   const saveResults = async (zip: JSZip, image: ImageFile) => {
+    if (!image.results) return;
+
     for (const r of image.results) {
       const blob = await fetch(r.blobUrl).then((r) => r.blob());
       zip.file(getResultFileName(image, r), blob);
@@ -120,8 +124,8 @@ export default function ImageList({
     } else {
       const zip = new JSZip();
       const usedNames = new Map<string, number>();
-      for (const i of images) {
-        let name = removeExtension(i.name);
+      for (let i = 0; i < images.length; i++) {
+        let name = removeExtension(images[i].name);
 
         if (usedNames.has(name)) {
           const prev = usedNames.get(name);
@@ -132,7 +136,7 @@ export default function ImageList({
         }
 
         const img = zip.folder(name);
-        if (img) await saveResults(img, i);
+        if (img) await saveResults(img, images[i]);
       }
       await downloadZip(zip, "split-images.zip");
     }
@@ -142,7 +146,7 @@ export default function ImageList({
     <>
       <input
         type="file"
-        accept=".png,.jpg,.jpeg,.webp"
+        accept=".png,.jfif,.pjp,.jpg,.pjepg,.jpeg,.webp"
         id="image-input"
         className={styles.input}
         multiple
@@ -199,22 +203,44 @@ export default function ImageList({
           <div className={styles.list}>
             {images.map((i) => (
               <ImageCard
-                key={i.id}
+                key={i.blobUrl}
                 imageFile={i}
+                results={i.results}
                 onSave={async () => await saveImage(i)}
                 onDelete={() => {
-                  i.results?.forEach((r) => URL.revokeObjectURL(r.blobUrl));
+                  if (i.results) {
+                    i.results.forEach((r) => URL.revokeObjectURL(r.blobUrl));
+                  }
                   URL.revokeObjectURL(i.blobUrl);
-                  setImages((images) => images.filter((im) => im.id !== i.id));
+                  setImages((images) =>
+                    images.filter((im) => im.blobUrl !== i.blobUrl)
+                  );
                 }}
                 onResultSave={(result) => {
                   downloadURL(result.blobUrl, getResultFileName(i, result));
                 }}
                 desc={
-                  i.results.length +
-                  " slide" +
-                  (i.results.length > 1 ? "s" : "")
+                  i.results &&
+                  (isGrid
+                    ? i.results.length + " posts (" + i.options?.rowN + " rows)"
+                    : i.results.length +
+                      " slide" +
+                      (i.results.length > 1 ? "s" : ""))
                 }
+                isGrid={isGrid}
+                options={i.options}
+                setOptions={(options) => {
+                  setImages((images) => {
+                    return images.map((im) => {
+                      if (im.blobUrl !== i.blobUrl) return im;
+
+                      const newImage = { ...im, options, results: undefined };
+
+                      reprocess(newImage);
+                      return newImage;
+                    });
+                  });
+                }}
               />
             ))}
           </div>

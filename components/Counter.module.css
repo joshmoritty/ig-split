@@ -1,0 +1,34 @@
+.counter {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.counter button {
+  padding: 0.25rem;
+}
+
+.counter input {
+  width: 2.5rem;
+  height: 100%;
+
+  text-align: center;
+  border: none;
+  border-bottom: var(--border);
+  font-size: inherit;
+  font-family: inherit;
+
+  transition: var(--transition);
+}
+
+.counter input[type="number"]::-webkit-inner-spin-button,
+.counter input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.counter input:focus {
+  outline: none;
+  border-color: var(--a0);
+  transition: var(--transition);
+}

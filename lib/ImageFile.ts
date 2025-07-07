@@ -1,10 +1,12 @@
+import { ProcessOptions } from "./ProcessImage";
+
 export interface ImageFile {
-  id: string;
   name: string;
   blobUrl: string;
-  width: number;
-  height: number;
-  results: Result[];
+  fileType: string;
+  img: HTMLImageElement;
+  results?: Result[]
+  options?: ProcessOptions
 }
 
 export interface Result {

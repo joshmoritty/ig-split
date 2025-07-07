@@ -1,15 +1,15 @@
 "use client";
 import ImageList from "@/components/ImageList";
 import { Result } from "@/lib/ImageFile";
+import { ProcessImage } from "@/lib/ProcessImage";
 
 const defaultAspect = 4 / 5;
 
-const processImage = async (
-  img: HTMLImageElement,
-  width: number,
-  height: number,
-  fileType: string
-): Promise<Result[]> => {
+const processImage: ProcessImage = async (image) => {
+  const img = image.img;
+  const width = img.naturalWidth;
+  const height = img.naturalHeight;
+
   const n = Math.floor(width / height / defaultAspect);
 
   const resultHeight = height;
@@ -47,7 +47,7 @@ const processImage = async (
             });
           }
         },
-        fileType,
+        image.fileType,
         100
       )
     );
@@ -55,7 +55,7 @@ const processImage = async (
     results.push(result);
   }
 
-  return results;
+  return { ...image, results };
 };
 
 export default function Home() {

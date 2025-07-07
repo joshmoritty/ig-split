@@ -8,21 +8,29 @@ export default function Button({
   text,
   textVisible = "visible",
   img,
+  className = "",
+  disabled = false,
 }: {
   onClick?: MouseEventHandler<HTMLButtonElement>;
   type?: "action" | "danger" | undefined;
   text: string;
   textVisible?: "visible" | "hidden" | "hiddenMobile";
   img?: string;
+  className?: string;
+  disabled?: boolean;
 }) {
   return (
     <button
       className={`${
         styles.button +
         (type ? " " + styles[type] : "") +
-        (textVisible !== "visible" ? " " + styles[textVisible] : "")
+        (textVisible !== "visible" ? " " + styles[textVisible] : "") +
+        (disabled ? " " + styles.disabled : "") +
+        (" " + className)
       }`}
-      onClick={onClick}
+      onClick={(e) => {
+        if (onClick && !disabled) onClick(e);
+      }}
     >
       {img && text && <Image src={img} alt={text} width={32} height={32} />}
       {text && textVisible !== "hidden" && <span>{text}</span>}

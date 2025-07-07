@@ -8,6 +8,7 @@
 
   --g0: #000;
   --g1: #888;
+  --g2: #bbb;
   --g3: #ddd;
   --g4: #f3f3f3;
   --g5: #fff;
@@ -43,7 +44,7 @@ body {
   margin-left: auto;
   margin-right: auto;
 
-  padding: 1rem 1rem;
+  padding: 1rem 1.5rem;
 }
 
 main {
@@ -63,6 +64,8 @@ a {
 button {
   font-family: inherit;
   font-size: inherit;
+  border: none;
+  padding: 0;
 }
 
 footer {
