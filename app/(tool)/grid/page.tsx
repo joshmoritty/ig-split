@@ -1,7 +1,7 @@
 "use client";
 import ImageList from "@/components/ImageList";
 import { Result } from "@/lib/ImageFile";
-import { ProcessImage, ProcessOptions } from "@/lib/ProcessImage";
+import { ProcessImage } from "@/lib/ProcessImage";
 
 const defaultWidth = 1080;
 const defaultHeight = 1350;

@@ -9,7 +9,7 @@ import Button from "./Button";
 import JSZip from "jszip";
 import removeExtension from "@/lib/removeExtension";
 import { useDropzone } from "react-dropzone";
-import { ProcessImage, ProcessOptions } from "@/lib/ProcessImage";
+import { ProcessImage } from "@/lib/ProcessImage";
 
 export default function ImageList({
   processImage,
