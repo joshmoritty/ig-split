@@ -21,9 +21,6 @@ export default function Modal({
   children?: React.ReactNode;
 }) {
   useEffect(() => {
-    const scrollbarWidth =
-      window.innerWidth - document.documentElement.clientWidth;
-
     document.body.classList.add(styles.disableScroll);
 
     return () => {

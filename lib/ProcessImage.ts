@@ -1,4 +1,4 @@
-import { ImageFile, Result } from "./ImageFile";
+import { ImageFile } from "./ImageFile";
 
 export interface ProcessOptions {
   rowN?: number;

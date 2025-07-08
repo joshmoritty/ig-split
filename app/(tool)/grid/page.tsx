@@ -95,9 +95,8 @@ const processImage: ProcessImage = async (image) => {
       let x = cropX + j * (resultWidth + gapWidth - cutoffWidth);
       const y = cropY + i * (resultHeight + gapWidth);
 
-      const canvasX = 0;
+      const canvasX = 0, sourceHeight = resultHeight;
       let sourceWidth = resultWidth,
-        sourceHeight = resultHeight,
         canvasY = 0,
         canvasWidth = resultWidth,
         canvasHeight = resultHeight;

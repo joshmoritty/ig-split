@@ -58,7 +58,7 @@ export default function ImageList({
 
   const onDrop = useCallback((acceptedFiles: File[]) => {
     addFiles(acceptedFiles);
-  }, []);
+  }, [addFiles]);
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
     onDrop,
