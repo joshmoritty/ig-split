@@ -172,3 +172,9 @@
   border-color: var(--a0);
   background-color: var(--a0);
 }
+
+@media screen and (max-width: 768px) {
+  .grid.preview {
+    max-width: 100%;
+  }
+}
