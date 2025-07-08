@@ -3,13 +3,18 @@ import Image from "next/image";
 import button from "./Button.module.css";
 import styles from "./ImageList.module.css";
 import ImageCard from "./ImageCard";
-import { ImageFile, Result } from "@/lib/ImageFile";
+import { ImageFile } from "@/lib/ImageFile";
 import { ChangeEvent, useCallback, useState } from "react";
 import Button from "./Button";
-import JSZip from "jszip";
-import removeExtension from "@/lib/removeExtension";
 import { useDropzone } from "react-dropzone";
 import { ProcessImage } from "@/lib/ProcessImage";
+import {
+  readImageFiles,
+  reprocessImage,
+  saveAll,
+  saveImage,
+  saveResult,
+} from "@/lib/imageUtils";
 
 export default function ImageList({
   processImage,
@@ -20,45 +25,25 @@ export default function ImageList({
 }) {
   const [images, setImages] = useState<ImageFile[]>([]);
 
-  const reprocess = async (image: ImageFile) => {
-    const newImage = await processImage(image);
-
+  const updateImage = (image: ImageFile) => {
     setImages((images) =>
-      images.map((i) => (i.blobUrl === newImage.blobUrl ? newImage : i))
+      images.map((i) => (i.blobUrl === image.blobUrl ? image : i))
     );
   };
 
-  const addFiles = async (files: File[]) => {
-    for (let i = 0; i < files.length; i++) {
-      const blobUrl = URL.createObjectURL(files[i]);
-
-      const name = files[i].name;
-      const data = blobUrl;
-      const fileType = files[i].type;
-
-      const img = await new Promise<HTMLImageElement>((resolve, reject) => {
-        const im = document.createElement("img");
-        im.onload = () => resolve(im);
-        im.onerror = reject;
-        im.src = data;
-      });
-
-      const image: ImageFile = {
-        blobUrl,
-        name,
-        fileType,
-        img,
-      };
-
-      setImages((images) => [...images, image]);
-
-      reprocess(image);
-    }
+  const addImage = (image: ImageFile) => {
+    setImages((images) => [...images, image]);
   };
 
-  const onDrop = useCallback((acceptedFiles: File[]) => {
-    addFiles(acceptedFiles);
-  }, [addFiles]);
+  const reprocess = (image: ImageFile) =>
+    reprocessImage(image, processImage, updateImage);
+
+  const onDrop = useCallback(
+    (acceptedFiles: File[]) => {
+      readImageFiles(acceptedFiles, addImage, reprocess);
+    },
+    [readImageFiles]
+  );
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
     onDrop,
@@ -81,65 +66,8 @@ export default function ImageList({
       files.push(fileList[i]);
     }
 
-    await addFiles(files);
+    await readImageFiles(files, addImage, updateImage);
     e.target.value = "";
-  };
-
-  const getResultFileName = (image: ImageFile, result: Result) =>
-    result.name + " " + image.name;
-
-  const downloadURL = (url: string, fileName: string) => {
-    const link = document.createElement("a");
-    link.href = url;
-    link.download = fileName;
-    link.click();
-  };
-
-  const downloadZip = async (zip: JSZip, fileName: string) => {
-    const blob = await zip.generateAsync({ type: "blob" });
-
-    const url = URL.createObjectURL(blob);
-    downloadURL(url, fileName);
-    URL.revokeObjectURL(url);
-  };
-
-  const saveResults = async (zip: JSZip, image: ImageFile) => {
-    if (!image.results) return;
-
-    for (const r of image.results) {
-      const blob = await fetch(r.blobUrl).then((r) => r.blob());
-      zip.file(getResultFileName(image, r), blob);
-    }
-  };
-
-  const saveImage = async (image: ImageFile) => {
-    const zip = new JSZip();
-    await saveResults(zip, image);
-    await downloadZip(zip, removeExtension(image.name) + ".zip");
-  };
-
-  const saveAll = async () => {
-    if (images.length === 1) {
-      await saveImage(images[0]);
-    } else {
-      const zip = new JSZip();
-      const usedNames = new Map<string, number>();
-      for (let i = 0; i < images.length; i++) {
-        let name = removeExtension(images[i].name);
-
-        if (usedNames.has(name)) {
-          const prev = usedNames.get(name);
-          if (prev) usedNames.set(name, prev + 1);
-          name = name + " (" + prev + ")";
-        } else {
-          usedNames.set(name, 1);
-        }
-
-        const img = zip.folder(name);
-        if (img) await saveResults(img, images[i]);
-      }
-      await downloadZip(zip, "split-images.zip");
-    }
   };
 
   return (
@@ -198,7 +126,7 @@ export default function ImageList({
               type="action"
               text="Save All Images"
               img="/ig-split/img/download-action.svg"
-              onClick={saveAll}
+              onClick={() => saveAll(images)}
             />
           </div>
           <div className={styles.list}>
@@ -217,9 +145,7 @@ export default function ImageList({
                     images.filter((im) => im.blobUrl !== i.blobUrl)
                   );
                 }}
-                onResultSave={(result) => {
-                  downloadURL(result.blobUrl, getResultFileName(i, result));
-                }}
+                onResultSave={saveResult}
                 desc={
                   i.results &&
                   (isGrid

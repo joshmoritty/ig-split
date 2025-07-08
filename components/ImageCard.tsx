@@ -22,7 +22,7 @@ export default function ImageCard({
   results?: Result[];
   onSave: () => void;
   onDelete: () => void;
-  onResultSave: (result: Result) => void;
+  onResultSave: (image: ImageFile, result: Result) => void;
   desc?: string;
   isGrid?: boolean;
   options?: ProcessOptions;
@@ -102,7 +102,7 @@ export default function ImageCard({
                 img="/ig-split/img/download.svg"
                 text="Download"
                 textVisible="hidden"
-                onClick={() => onResultSave(result)}
+                onClick={() => onResultSave(imageFile, result)}
               />
             </div>
           ))}
