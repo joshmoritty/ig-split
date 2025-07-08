@@ -4,7 +4,7 @@ import button from "./Button.module.css";
 import styles from "./ImageList.module.css";
 import ImageCard from "./ImageCard";
 import { ImageFile } from "@/lib/ImageFile";
-import { ChangeEvent, useCallback, useState } from "react";
+import { ChangeEvent, useState } from "react";
 import Button from "./Button";
 import { useDropzone } from "react-dropzone";
 import { ProcessImage } from "@/lib/ProcessImage";
@@ -38,12 +38,9 @@ export default function ImageList({
   const reprocess = (image: ImageFile) =>
     reprocessImage(image, processImage, updateImage);
 
-  const onDrop = useCallback(
-    (acceptedFiles: File[]) => {
-      readImageFiles(acceptedFiles, addImage, reprocess);
-    },
-    [readImageFiles]
-  );
+  const onDrop = (acceptedFiles: File[]) => {
+    readImageFiles(acceptedFiles, addImage, reprocess);
+  };
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
     onDrop,
