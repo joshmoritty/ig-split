@@ -10,6 +10,7 @@ export default function Modal({
   fullscreen = false,
   onClose,
   onConfirm,
+  bodyClassName,
   children,
 }: {
   title: string;
@@ -18,6 +19,7 @@ export default function Modal({
   fullscreen?: boolean;
   onClose?: () => void;
   onConfirm?: () => void;
+  bodyClassName?: string;
   children?: React.ReactNode;
 }) {
   useEffect(() => {
@@ -41,7 +43,11 @@ export default function Modal({
           />
           <h1>{title}</h1>
         </div>
-        <div className={styles.body}>{children}</div>
+        <div
+          className={styles.body + (bodyClassName ? " " + bodyClassName : "")}
+        >
+          {children}
+        </div>
         {showFooter && (
           <div className={styles.footer}>
             <Button
