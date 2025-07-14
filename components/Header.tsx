@@ -10,6 +10,7 @@ export default function Header() {
         alt="IG Split"
         width={204}
         height={78}
+        unoptimized
       />
     </Link>
   );

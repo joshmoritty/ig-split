@@ -206,6 +206,7 @@ export default function ImageCard({
                         alt="Check"
                         width={32}
                         height={32}
+                        unoptimized
                       />
                     )}
                   </div>

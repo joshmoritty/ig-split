@@ -21,6 +21,7 @@ export default function Nav() {
           alt="Grid"
           width={32}
           height={32}
+          unoptimized
         />
         <span>Grid Maker</span>
       </Link>
@@ -37,6 +38,7 @@ export default function Nav() {
           alt="Carousel"
           width={32}
           height={32}
+          unoptimized
         />
         <span>Carousel Split</span>
       </Link>

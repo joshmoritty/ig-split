@@ -97,6 +97,7 @@ export default function ImageList({
                 alt="Select Images"
                 width={32}
                 height={32}
+                unoptimized
               />
               Select Images
             </label>
@@ -116,6 +117,7 @@ export default function ImageList({
                 alt="Add Images"
                 width={32}
                 height={32}
+                unoptimized
               />
               Add Images
             </label>
