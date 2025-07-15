@@ -1,6 +1,5 @@
 import { MouseEventHandler } from "react";
 import styles from "./Button.module.css";
-import Image from "next/image";
 
 export default function Button({
   onClick,

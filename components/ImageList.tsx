@@ -1,5 +1,4 @@
 "use client";
-import Image from "next/image";
 import button from "./Button.module.css";
 import styles from "./ImageList.module.css";
 import ImageCard from "./ImageCard";
