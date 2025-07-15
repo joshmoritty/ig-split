@@ -48,7 +48,7 @@ export const readImageFiles = async (
 const getResultFileName = (image: ImageFile, result: Result) =>
   result.name + " " + image.name;
 
-const downloadURL = (url: string, fileName: string) => {
+export const downloadURL = (url: string, fileName: string) => {
   const link = document.createElement("a");
   link.href = url;
   link.download = fileName;

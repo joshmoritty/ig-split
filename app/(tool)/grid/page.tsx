@@ -1,18 +1,9 @@
 "use client";
+import GridGuide from "@/components/GridGuide";
 import ImageList from "@/components/ImageList";
 import { Result } from "@/lib/ImageFile";
 import { ProcessImage } from "@/lib/ProcessImage";
-
-const defaultWidth = 1080;
-const defaultHeight = 1350;
-const defaultPreviewWidth = 1015;
-const defaultGap = 10;
-const defaultColN = 3;
-
-const reelWidth = 1080;
-const reelHeight = 1920;
-const reelHeightOffset = 4;
-const reelYOffset = 1;
+import * as grid from "@/lib/grid.constants"
 
 const processImage: ProcessImage = async (image) => {
   const img = image.img;
@@ -22,16 +13,16 @@ const processImage: ProcessImage = async (image) => {
   console.log(image.options);
 
   const opt = image.options ? image.options : {};
-  const colN = defaultColN;
-  const gap = opt.gap !== undefined ? opt.gap : defaultGap;
+  const colN = grid.defaultColN;
+  const gap = opt.gap !== undefined ? opt.gap : grid.defaultGap;
   opt.gap = gap;
 
-  const gapAspect = gap / (defaultHeight + gap);
+  const gapAspect = gap / (grid.defaultHeight + gap);
   const rowAspect =
-    (defaultPreviewWidth * colN +
+    (grid.defaultPreviewWidth * colN +
       gap * 2 +
-      (defaultWidth - defaultPreviewWidth)) /
-    (defaultHeight + gap);
+      (grid.defaultWidth - grid.defaultPreviewWidth)) /
+    (grid.defaultHeight + gap);
 
   let rowN, rowWidth, rowHeight, cropX;
 
@@ -51,16 +42,17 @@ const processImage: ProcessImage = async (image) => {
     }
     cropX = 0;
   }
-  const cropY = height - rowHeight * rowN;
-
+  
   const gapWidth = Math.round(gapAspect * rowHeight);
   const cutoffWidth = Math.round(
-    ((defaultWidth - defaultPreviewWidth) / (defaultHeight + gap)) * rowHeight
+    ((grid.defaultWidth - grid.defaultPreviewWidth) / (grid.defaultHeight + gap)) * rowHeight
   );
+
+  const cropY = height - rowHeight * rowN + gapWidth;
 
   const resultHeight = rowHeight - gapWidth;
   const resultWidth = Math.round(
-    (defaultWidth / (defaultHeight + gap)) * rowHeight
+    (grid.defaultWidth / (grid.defaultHeight + gap)) * rowHeight
   );
 
   const resultN = opt.rowN * 3;
@@ -83,8 +75,8 @@ const processImage: ProcessImage = async (image) => {
       const canvas = document.createElement("canvas");
 
       if (opt.isReel[results.length]) {
-        canvas.width = reelWidth;
-        canvas.height = reelHeight;
+        canvas.width = grid.reelWidth;
+        canvas.height = grid.reelHeight;
       } else {
         canvas.width = resultWidth;
         canvas.height = resultHeight;
@@ -95,23 +87,24 @@ const processImage: ProcessImage = async (image) => {
       let x = cropX + j * (resultWidth + gapWidth - cutoffWidth);
       const y = cropY + i * (resultHeight + gapWidth);
 
-      const canvasX = 0, sourceHeight = resultHeight;
+      const canvasX = 0,
+        sourceHeight = resultHeight;
       let sourceWidth = resultWidth,
         canvasY = 0,
         canvasWidth = resultWidth,
         canvasHeight = resultHeight;
 
       if (opt.isReel[results.length]) {
-        sourceWidth = resultWidth * (defaultPreviewWidth / defaultWidth);
+        sourceWidth = resultWidth * (grid.defaultPreviewWidth / grid.defaultWidth);
         x += (resultWidth - sourceWidth) / 2;
-        canvasWidth = reelWidth;
+        canvasWidth = grid.reelWidth;
         canvasHeight =
-          Math.ceil(reelWidth * (resultHeight / sourceWidth)) +
-          reelHeightOffset;
-        canvasY = Math.floor((reelHeight - canvasHeight) / 2) + reelYOffset;
+          Math.ceil(grid.reelWidth * (resultHeight / sourceWidth)) +
+          grid.reelHeightOffset;
+        canvasY = Math.floor((grid.reelHeight - canvasHeight) / 2) + grid.reelYOffset;
 
         if (ctx) ctx.fillStyle = "white";
-        ctx?.fillRect(0, 0, reelWidth, reelHeight);
+        ctx?.fillRect(0, 0, grid.reelWidth, grid.reelHeight);
       }
 
       ctx?.drawImage(
@@ -151,5 +144,10 @@ const processImage: ProcessImage = async (image) => {
 };
 
 export default function Home() {
-  return <ImageList processImage={processImage} isGrid />;
+  return (
+    <>
+      <ImageList processImage={processImage} isGrid />
+      <GridGuide />
+    </>
+  );
 }

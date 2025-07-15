@@ -1,0 +1,30 @@
+.guide {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.modalBody {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.modalBody p {
+  margin: 0;
+}
+
+.rowEditor {
+  display: grid;
+  width: 100%;
+  max-width: 20rem;
+  align-self: center;
+
+  grid-template-columns: 1fr auto;
+  align-items: center;
+  gap: 1rem;
+}
+
+.download {
+  align-self: center;
+}
