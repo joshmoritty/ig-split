@@ -12,16 +12,13 @@ export default function Nav() {
       className={`${styles.nav + (path === "/" ? " " + styles.navHome : "")}`}
     >
       <Link href="/grid" className={path === "/grid" ? styles.active : ""}>
-        <Image
+        <img
           src={
             path === "/grid"
               ? "/ig-split/img/grid-active.svg"
               : "/ig-split/img/grid.svg"
           }
           alt="Grid"
-          width={32}
-          height={32}
-          unoptimized
         />
         <span>Grid Maker</span>
       </Link>
@@ -29,16 +26,13 @@ export default function Nav() {
         href="/carousel"
         className={path === "/carousel" ? styles.active : ""}
       >
-        <Image
+        <img
           src={
             path === "/carousel"
               ? "/ig-split/img/carousel-active.svg"
               : "/ig-split/img/carousel.svg"
           }
           alt="Carousel"
-          width={32}
-          height={32}
-          unoptimized
         />
         <span>Carousel Split</span>
       </Link>

@@ -92,13 +92,7 @@ export default function ImageList({
               className={`${button.button} ${button.action}`}
               onClick={(e) => e.stopPropagation()}
             >
-              <Image
-                src="/ig-split/img/image-action.svg"
-                alt="Select Images"
-                width={32}
-                height={32}
-                unoptimized
-              />
+              <img src="/ig-split/img/image-action.svg" alt="Select Images" />
               Select Images
             </label>
           </div>
@@ -112,13 +106,7 @@ export default function ImageList({
             }
           >
             <label htmlFor="image-input" className={button.button}>
-              <Image
-                src="/ig-split/img/image.svg"
-                alt="Add Images"
-                width={32}
-                height={32}
-                unoptimized
-              />
+              <img src="/ig-split/img/image.svg" alt="Add Images" />
               Add Images
             </label>
             <Button

@@ -201,13 +201,7 @@ export default function ImageCard({
                   />
                   <div className={styles.tick}>
                     {tempOptions.isReel && tempOptions.isReel[idx] && (
-                      <Image
-                        src="/ig-split/img/check.svg"
-                        alt="Check"
-                        width={32}
-                        height={32}
-                        unoptimized
-                      />
+                      <img src="/ig-split/img/check.svg" alt="Check" />
                     )}
                   </div>
                 </button>

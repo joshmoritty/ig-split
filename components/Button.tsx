@@ -32,9 +32,7 @@ export default function Button({
         if (onClick && !disabled) onClick(e);
       }}
     >
-      {img && text && (
-        <Image src={img} alt={text} width={32} height={32} unoptimized />
-      )}
+      {img && text && <img src={img} alt={text} />}
       {text && textVisible !== "hidden" && <span>{text}</span>}
     </button>
   );
