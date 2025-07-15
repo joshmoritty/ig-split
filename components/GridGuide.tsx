@@ -115,8 +115,9 @@ export default function GridGuide() {
           <p>
             2. (Optional) Decide how many pixels the IG grid gap is, so Grid
             Maker can compensate by leaving the same gap between each split.
-            This is to prevent a 'stretching' effect between adjacent posts.
-            Leave at 10 if unsure, and change to 0 to disable gap compensation.
+            This is to prevent a &apos;stretching&apos; effect between adjacent
+            posts. Leave at 10 if unsure, and change to 0 to disable gap
+            compensation.
           </p>
           <div className={styles.rowEditor}>
             <span>Gap width</span>
@@ -128,7 +129,7 @@ export default function GridGuide() {
           </p>
           <p>
             4. (Optional) Download the grid guidelines overlay and place it on
-            top of the image to help with layouting. Solid lines are what's
+            top of the image to help with layouting. Solid lines are what&apos;s
             visible on the IG grid, dashed lines are where the actual splits
             are. If you want to make a seamless carousel within a post, make
             sure the <strong>left edge</strong> of the second slide lines up
