@@ -3,7 +3,7 @@ import GridGuide from "@/components/GridGuide";
 import ImageList from "@/components/ImageList";
 import { Result } from "@/lib/ImageFile";
 import { ProcessImage } from "@/lib/ProcessImage";
-import * as grid from "@/lib/grid.constants"
+import * as grid from "@/lib/grid.constants";
 
 const processImage: ProcessImage = async (image) => {
   const img = image.img;
@@ -42,10 +42,12 @@ const processImage: ProcessImage = async (image) => {
     }
     cropX = 0;
   }
-  
+
   const gapWidth = Math.round(gapAspect * rowHeight);
   const cutoffWidth = Math.round(
-    ((grid.defaultWidth - grid.defaultPreviewWidth) / (grid.defaultHeight + gap)) * rowHeight
+    ((grid.defaultWidth - grid.defaultPreviewWidth) /
+      (grid.defaultHeight + gap)) *
+      rowHeight
   );
 
   const cropY = height - rowHeight * rowN + gapWidth;
@@ -84,27 +86,60 @@ const processImage: ProcessImage = async (image) => {
 
       const ctx = canvas.getContext("2d");
 
-      let x = cropX + j * (resultWidth + gapWidth - cutoffWidth);
-      const y = cropY + i * (resultHeight + gapWidth);
+      let x = cropX + j * (resultWidth + gapWidth - cutoffWidth),
+        y = cropY + i * (resultHeight + gapWidth);
 
-      const canvasX = 0,
-        sourceHeight = resultHeight;
+      const canvasX = 0;
       let sourceWidth = resultWidth,
+        sourceHeight = resultHeight,
         canvasY = 0,
         canvasWidth = resultWidth,
         canvasHeight = resultHeight;
 
       if (opt.isReel[results.length]) {
-        sourceWidth = resultWidth * (grid.defaultPreviewWidth / grid.defaultWidth);
+        const isTop = i === 0;
+        const isBottom = i === rowN - 1;
+
+        sourceWidth =
+          resultWidth * (grid.defaultPreviewWidth / grid.defaultWidth);
         x += (resultWidth - sourceWidth) / 2;
         canvasWidth = grid.reelWidth;
-        canvasHeight =
-          Math.ceil(grid.reelWidth * (resultHeight / sourceWidth)) +
-          grid.reelHeightOffset;
-        canvasY = Math.floor((grid.reelHeight - canvasHeight) / 2) + grid.reelYOffset;
+        canvasY = 0;
 
         if (ctx) ctx.fillStyle = "white";
         ctx?.fillRect(0, 0, grid.reelWidth, grid.reelHeight);
+
+        const reelSourceHeight = Math.ceil(
+          sourceWidth * (grid.reelHeight / grid.reelWidth)
+        );
+        const sourcePadding = Math.floor((reelSourceHeight - resultHeight) / 2);
+        const canvasPadding = Math.ceil(
+          grid.reelWidth * (sourcePadding / sourceWidth)
+        );
+
+        canvasHeight = Math.ceil(grid.reelWidth * (resultHeight / sourceWidth));
+
+        if (isTop && isBottom) {
+          canvasY = Math.floor((grid.reelHeight - canvasHeight) / 2);
+          sourceHeight = resultHeight;
+        } else if (isTop) {
+          canvasHeight += canvasPadding;
+          canvasY = canvasPadding;
+          sourceHeight = resultHeight + sourcePadding;
+        } else if (isBottom) {
+          canvasHeight += canvasPadding;
+          canvasY = 0;
+          sourceHeight = resultHeight + sourcePadding;
+          y = y - sourcePadding;
+        } else {
+          canvasHeight = grid.reelHeight;
+          canvasY = 0;
+          sourceHeight = reelSourceHeight;
+          y = y - sourcePadding;
+        }
+
+        canvasHeight += grid.reelHeightOffset;
+        canvasY += grid.reelYOffset;
       }
 
       ctx?.drawImage(

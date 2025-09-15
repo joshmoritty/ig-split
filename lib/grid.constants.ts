@@ -6,5 +6,5 @@ export const defaultColN = 3;
 
 export const reelWidth = 1080;
 export const reelHeight = 1920;
-export const reelHeightOffset = 4;
-export const reelYOffset = 1;
+export const reelHeightOffset = 3;
+export const reelYOffset = -7;
