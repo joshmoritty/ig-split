@@ -62,7 +62,7 @@ export default function ImageList({
       files.push(fileList[i]);
     }
 
-    await readImageFiles(files, addImage, updateImage);
+    await readImageFiles(files, addImage, reprocess);
     e.target.value = "";
   };
 

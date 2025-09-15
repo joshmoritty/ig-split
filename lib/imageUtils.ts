@@ -8,9 +8,12 @@ export const reprocessImage = async (
   processImage: ProcessImage,
   updateImage: (image: ImageFile) => void
 ) => {
-  const newImage = await processImage(image);
-
-  updateImage(newImage);
+  try {
+    const newImage = await processImage(image);
+    updateImage(newImage);
+  } catch (error) {
+    console.error(`Failed to reprocess image ${image.name}:`, error);
+  }
 };
 
 export const readImageFiles = async (
@@ -19,29 +22,34 @@ export const readImageFiles = async (
   processImage: (image: ImageFile) => void
 ) => {
   for (let i = 0; i < files.length; i++) {
-    const blobUrl = URL.createObjectURL(files[i]);
+    try {
+      const blobUrl = URL.createObjectURL(files[i]);
 
-    const name = files[i].name;
-    const data = blobUrl;
-    const fileType = files[i].type;
+      const name = files[i].name;
+      const data = blobUrl;
+      const fileType = files[i].type;
 
-    const img = await new Promise<HTMLImageElement>((resolve, reject) => {
-      const im = document.createElement("img");
-      im.onload = () => resolve(im);
-      im.onerror = reject;
-      im.src = data;
-    });
+      const img = await new Promise<HTMLImageElement>((resolve, reject) => {
+        const im = document.createElement("img");
+        im.onload = () => resolve(im);
+        im.onerror = reject;
+        im.src = data;
+      });
 
-    const image: ImageFile = {
-      blobUrl,
-      name,
-      fileType,
-      img,
-    };
+      const image: ImageFile = {
+        blobUrl,
+        name,
+        fileType,
+        img,
+      };
 
-    addImage(image);
+      addImage(image);
 
-    processImage(image);
+      processImage(image);
+    } catch (error) {
+      console.error(`Failed to load image ${files[i].name}:`, error);
+      URL.revokeObjectURL(URL.createObjectURL(files[i]));
+    }
   }
 };
 
