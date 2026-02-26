@@ -10,7 +10,7 @@ const processImage: ProcessImage = async (image) => {
   const width = img.naturalWidth;
   const height = img.naturalHeight;
 
-  const n = Math.floor(width / height / defaultAspect);
+  const n = Math.floor(width / height * (1 / defaultAspect));
 
   const resultHeight = height;
   const resultWidth = defaultAspect * resultHeight;
